@@ -1,0 +1,100 @@
+@import 'remixicon/fonts/remixicon.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --bg-color: #f1f4f9;
+    --primary-color: #2a7479;
+}
+
+body {
+    background-color: var(--bg-color);
+}
+
+.card {
+    @apply bg-white shadow-card p-4 rounded-xl;
+    height: 100%;
+
+    &.alert {
+        @apply bg-orange-100 text-orange-900 font-bold;
+    }
+}
+
+.button {
+    @apply px-4 py-3 rounded-lg;
+
+    &.button-sm {
+        @apply px-2 py-2 rounded text-sm;
+    }
+
+    &.flat {
+        @apply bg-primary text-white hover:opacity-90
+    }
+}
+
+.input {
+    @apply bg-black bg-opacity-5 px-3 py-3 rounded-xl outline-none w-full;
+
+    &.placeholder {
+        @apply pt-4 pb-2;
+    }
+}
+
+.inputLabel {
+    @apply absolute text-xs ml-3 font-semibold text-gray-500;
+}
+
+.title {
+    @apply text-primary font-bold text-xl;
+}
+
+table {
+    @apply w-full my-4;
+
+    thead, tbody {
+        td, th {
+            @apply p-3 text-center;
+
+            &:first-child {
+                @apply text-left;
+            }
+        }
+    }
+
+    thead {
+        @apply bg-black bg-opacity-10;
+    }
+
+    tbody {
+        td {
+            @apply border-b;
+        }
+    }
+
+    &.clickable {
+        tbody tr {
+            @apply cursor-pointer hover:bg-gray-200;
+        }
+    }
+}
+
+.grid {
+    @apply h-screen;
+    display: grid;
+    grid-template-columns: 375px 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "sidebar content";
+
+    .sidebar {
+        @apply p-6;
+        grid-area: sidebar;
+    }
+
+    .content {
+        @apply p-6;
+        grid-area: content;
+        overflow: auto;
+    }
+}
