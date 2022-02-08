@@ -50,6 +50,10 @@ body {
     @apply text-primary font-bold text-xl;
 }
 
+.link {
+    @apply cursor-pointer text-primary hover:underline;
+}
+
 table {
     @apply w-full my-4;
 
@@ -76,6 +80,20 @@ table {
     &.clickable {
         tbody tr {
             @apply cursor-pointer hover:bg-gray-200;
+        }
+    }
+
+    tr {
+        &.child {
+            @apply bg-blue-100;
+        }
+
+        &.porn {
+            @apply bg-orange-100;
+        }
+
+        &.child-porn {
+            @apply bg-red-200;
         }
     }
 }

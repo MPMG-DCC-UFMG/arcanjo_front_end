@@ -53,12 +53,7 @@ function AnalysisNew() {
     }
 
     return (
-        <Sidebar buttons={[
-            {
-                label: "Listar Análises",
-                linkTo: "/"
-            }
-        ]}>
+        <Sidebar>
             <div className='w-full max-w-lg'>
                 <Title>Nova Análise</Title>
 

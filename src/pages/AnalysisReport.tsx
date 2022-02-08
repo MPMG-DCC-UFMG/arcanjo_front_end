@@ -29,12 +29,7 @@ function AnalysisReport() {
     }, []);
 
     return (
-        <Sidebar buttons={[
-            {
-                label: "Listar Análises",
-                linkTo: "/"
-            }
-        ]}>
+        <Sidebar>
             {analysis
                 ? <div className='w-full'>
                     <Title>Log do processamento</Title>
@@ -52,7 +47,7 @@ function AnalysisReport() {
                         </div></Alert>
                         : null}
 
-                    <AnalysisReportTable id={id || 0} />
+                    <AnalysisReportTable id={id || 0} analysis={analysis} />
 
                 </div>
                 : <></>

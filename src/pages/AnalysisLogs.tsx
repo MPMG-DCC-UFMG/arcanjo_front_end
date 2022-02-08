@@ -53,12 +53,7 @@ function AnalysisLogs() {
     }, []);
 
     return (
-        <Sidebar buttons={[
-            {
-                label: "Listar Análises",
-                linkTo: "/"
-            }
-        ]}>
+        <Sidebar>
             {analysis
                 ? <div className='w-full'>
                     <Title>Log do processamento</Title>
