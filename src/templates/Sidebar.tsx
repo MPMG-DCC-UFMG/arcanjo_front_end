@@ -9,6 +9,19 @@ interface SidebarProps {
 }
 
 function Sidebar({ buttons, children }: SidebarProps) {
+
+  if (!buttons)
+    buttons = [
+      {
+        label: "Nova Análise",
+        linkTo: "/analysis/new"
+      },
+      {
+        label: "Usuários",
+        linkTo: "/users"
+      }
+    ]
+
   return (<>
     <div className='grid'>
       <div className="sidebar">

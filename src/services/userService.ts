@@ -15,4 +15,16 @@ export default class UserService extends ApiRequest {
         return await this.post(data);
     }
 
+    async save(id: number, data: UserData) {
+        return await this.put(id, data);
+    }
+
+    async getById(id: string) {
+        return await this.get(id);
+    }
+
+    async list() {
+        return await this.get();
+    }
+
 }

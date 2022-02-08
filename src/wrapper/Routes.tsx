@@ -6,6 +6,8 @@ import AnalysisReport from '../pages/AnalysisReport';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import Users from '../pages/Users';
+import UsersForm from '../pages/UsersForm';
 import AuthRoute from './AuthRoute';
 
 function AppRoutes() {
@@ -14,6 +16,8 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<AuthRoute element={<Home />} />} />
+      <Route path="/users" element={<AuthRoute element={<Users />} />} />
+      <Route path="/users/:id" element={<AuthRoute element={<UsersForm />} />} />
       <Route path="/analysis/new" element={<AuthRoute element={<AnalysisNew />} />} />
       <Route path="/analysis/:id/logs" element={<AuthRoute element={<AnalysisLogs />} />} />
       <Route path="/analysis/:id/report" element={<AuthRoute element={<AnalysisReport />} />} />

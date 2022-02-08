@@ -1,17 +1,18 @@
 import React from 'react';
 import AnalysisTable from '../components/AnalysisTable';
 import Title from '../components/Title';
+import UsersTable from '../components/UsersTable';
 import Sidebar from '../templates/Sidebar';
 
-function Home() {
+function Users() {
     return (
-        <Sidebar>
+        <Sidebar >
             <>
-                <Title>Análises</Title>
-                <AnalysisTable />
+                <Title>Usuários</Title>
+                <UsersTable />
             </>
         </Sidebar>
     );
 }
 
-export default Home;
+export default Users;
