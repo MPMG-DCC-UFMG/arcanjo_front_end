@@ -15,7 +15,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
     }
 
     const fileUrl = (item: AnalysisReportData) => {
-        return `${process.env.REACT_APP_BACKEND_URL}/storage?file=${analysis.path}/${item.file}`;
+        return `${process.env.REACT_APP_BACKEND_URL}/storage?file=${item.file}`;
     }
 
     useEffect(() => {
