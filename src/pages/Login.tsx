@@ -24,7 +24,9 @@ function Login() {
         try {
             const response = await authService.login(target.email.value, target.password.value);
             AuthService.setToken(response.token);
-            navigate("/");
+            setTimeout(() => {
+                navigate("/");
+            }, 500);
         } catch (err: any) {
             toast.error(err);
         }
