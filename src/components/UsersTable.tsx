@@ -33,13 +33,15 @@ function UsersTable() {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th className='text-left'>Nome da Análise</th>
+                            <th className='text-left'>Nome do Usuário</th>
+                            <th>Ativo</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data?.map(user => <tr key={user.id} onClick={() => clickUser(user)}>
                             <td width={40}>{user.id}</td>
                             <td className='text-left'>{user.name}</td>
+                            <td>{user.active ? 'Sim' : 'Não'}</td>
                         </tr>
                         )}
                     </tbody>

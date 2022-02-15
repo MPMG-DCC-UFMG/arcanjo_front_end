@@ -98,7 +98,7 @@ table {
     }
 }
 
-.grid {
+.template-grid {
     @apply h-screen;
     display: grid;
     grid-template-columns: 375px 1fr;
@@ -114,5 +114,20 @@ table {
         @apply p-6;
         grid-area: content;
         overflow: auto;
+    }
+}
+
+.filter-card {
+
+    div {
+        @apply flex-1 mx-2;
+    }
+
+    label {
+        @apply block
+    }
+
+    select, input {
+        @apply border p-2 rounded-lg w-full block
     }
 }

@@ -3,9 +3,14 @@ import { Dispatch, SetStateAction } from "react";
 export interface UserData {
     id?: number;
     role?: string;
+    active?: boolean;
     name: string;
     email: string;
     password?: string;
+}
+
+export interface UserData {
+    passwordConfirm?: string;
 }
 
 export interface AnalysisData {

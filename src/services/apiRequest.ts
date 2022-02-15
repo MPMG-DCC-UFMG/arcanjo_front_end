@@ -8,6 +8,9 @@ export default class ApiRequest {
     ) { }
 
     protected getToken = () => localStorage.getItem("ARCANJO_TOKEN");
+    protected getHost = () => {
+        return `http://${window.location.hostname}:${process.env.REACT_APP_BACKEND_PORT}`;
+    }
 
     protected getHeaders(): AxiosRequestHeaders {
         const headers: AxiosRequestHeaders = {};
@@ -20,7 +23,7 @@ export default class ApiRequest {
 
     protected async get(id?: string | number, params?: string) {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/${this._endpoint}${id ? '/' + id : ''}${params ? '?' + params : ''}`, {
+            const response = await axios.get(`${this.getHost()}/${this._endpoint}${id ? '/' + id : ''}${params ? '?' + params : ''}`, {
                 headers: this.getHeaders()
             });
             return response.data;
@@ -31,7 +34,7 @@ export default class ApiRequest {
 
     protected async post(data: any) {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${this._endpoint}`, data, {
+            const response = await axios.post(`${this.getHost()}/${this._endpoint}`, data, {
                 headers: this.getHeaders()
             });
             return response.data;
@@ -42,7 +45,7 @@ export default class ApiRequest {
 
     protected async postUrl(url: string) {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/${this._endpoint}/${url}`, null, {
+            const response = await axios.post(`${this.getHost()}/${this._endpoint}/${url}`, null, {
                 headers: this.getHeaders()
             });
             return response.data;
@@ -52,13 +55,13 @@ export default class ApiRequest {
     }
 
     protected async put(id: number, data: any) {
-        return await axios.put(`${process.env.REACT_APP_BACKEND_URL}/${this._endpoint}/${id}`, data, {
+        return await axios.put(`${this.getHost()}/${this._endpoint}/${id}`, data, {
             headers: this.getHeaders()
         });
     }
 
     protected async delete(id: number) {
-        return await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/${this._endpoint}/${id}`, {
+        return await axios.delete(`${this.getHost()}/${this._endpoint}/${id}`, {
             headers: this.getHeaders()
         });
     }

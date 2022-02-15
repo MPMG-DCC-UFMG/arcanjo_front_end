@@ -27,4 +27,8 @@ export default class AnalysisService extends ApiRequest {
         return await this.get(`${id}/report`);
     }
 
+    reportDownloadLink(id: number | string) {
+        return `${this.getHost()}/storage/report/${id}`;
+    }
+
 }

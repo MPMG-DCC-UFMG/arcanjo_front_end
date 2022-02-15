@@ -98,7 +98,7 @@ function AnalysisNew() {
 
                     <Divider />
 
-                    <Button loading={loading} type='submit' full>Salvar e iniciar o processamento</Button>
+                    <Button loading={loading} type='submit' full>Iniciar processamento</Button>
 
                 </form>
             </div>

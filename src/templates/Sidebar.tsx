@@ -33,6 +33,12 @@ function Sidebar({ buttons, children }: SidebarProps) {
       linkTo: "/users",
       outline: true
     });
+  } else {
+    buttons.push({
+      label: "Meus Dados",
+      linkTo: "/users/me",
+      outline: true
+    });
   }
 
   const filteredButtons = () => {
@@ -40,7 +46,7 @@ function Sidebar({ buttons, children }: SidebarProps) {
   }
 
   return (<>
-    <div className='grid'>
+    <div className='template-grid'>
       <div className="sidebar">
         <SidebarCard buttons={filteredButtons()} />
       </div>

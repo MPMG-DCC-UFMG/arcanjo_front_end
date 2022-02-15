@@ -21,8 +21,12 @@ function AuthRoute({ element }: { element: JSX.Element }) {
     }
 
     const loadUser = async () => {
-        const user = await userService.authUser();
-        setCurrentUser(user);
+        try {
+            const user = await userService.authUser();
+            setCurrentUser(user);
+        } catch {
+            navigate("/login");
+        }
     }
 
     useEffect(() => {

@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import Alert from '../components/Alert';
 import AnalysisReportTable from '../components/AnalysisReportTable';
 import AnalysisSummary from '../components/AnalysisSummary';
+import Button from '../components/Button';
+import Card from '../components/Card';
 import Title from '../components/Title';
 import AnalysisService from '../services/analysisService';
 import Sidebar from '../templates/Sidebar';
@@ -28,12 +30,26 @@ function AnalysisReport() {
         loadAnalysis();
     }, []);
 
+    const exportReport = () => {
+        if (id)
+            window.open(analysisService.reportDownloadLink(id))
+    }
+
     return (
         <Sidebar>
             {analysis
                 ? <div className='w-full'>
                     <Title>Log do processamento</Title>
-                    <AnalysisSummary analysis={analysis} />
+                    <div className="flex">
+                        <div className="flex-1">
+                            <AnalysisSummary analysis={analysis} />
+                        </div>
+                        <div className="flex-1 text-right">
+                            <Button onClick={exportReport}><>
+                                <i className="ri-file-download-fill"></i> Exportar Relatório
+                            </></Button>
+                        </div>
+                    </div>
 
                     {showAlert
                         ? <Alert><div className='flex items-center'>
