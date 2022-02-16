@@ -107,7 +107,7 @@ function AnalysisTable() {
                             <td>{analysis.id}</td>
                             <td>{analysis.name}</td>
                             <td><AnalysisStatus status={analysis.status} /></td>
-                            <td>{new Date(analysis.createdAt || "").toLocaleString()}</td>
+                            <td>{new Date(analysis.createdAt || "").toLocaleString('pt-BR')}</td>
                         </tr>
                         )}
                     </tbody>

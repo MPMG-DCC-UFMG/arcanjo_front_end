@@ -57,7 +57,7 @@ function AnalysisReport() {
                                 <i className="ri-alert-fill"></i>
                             </div>
                             <div className='flex-1'>
-                                Os resultados a seguir são fruto de um modelo probabilístico, com o objetivo de auxílio em triagem, e portanto podem haver falso positivos e/ou falso negativos. Favor verificá-los visualmente.
+                            Os resultados a seguir são fruto de um modelo probabilístico, com o objetivo de auxiliar na triagem de imagens e vídeos. Portanto, podem ocorrer falsos positivos ou falsos negativos. Necessário executar a verificação visual.
                             </div>
                             <div className='ml-4 text-base'><i onClick={() => setShowAlert(false)} className="ri-close-fill cursor-pointer opacity-50 hover:opacity-100"></i></div>
                         </div></Alert>

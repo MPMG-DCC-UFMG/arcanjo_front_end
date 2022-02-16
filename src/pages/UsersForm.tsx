@@ -68,9 +68,16 @@ function UsersForm() {
         setData({
             ...data,
             ...{
-                [ev.currentTarget.name]: ev.currentTarget.value
+                [ev.currentTarget.name]: fixedValue(ev.currentTarget.name, ev.currentTarget.value)
             }
         } as UserData)
+    }
+
+    const fixedValue = (name: string, value: any) => {
+        if (name === 'active')
+            return value === 's';
+
+        return value;
     }
 
     useEffect(() => {
@@ -103,9 +110,9 @@ function UsersForm() {
                             </div>
                             <div>
                                 <label>Ativo</label>
-                                <select className='input placeholder' name='active' value={data?.active ? 1 : 0} onChange={onChange}>
-                                    <option value={1}>Sim</option>
-                                    <option value={0}>Não</option>
+                                <select className='input placeholder' name='active' value={data?.active ? 's' : 'n'} onChange={onChange}>
+                                    <option value='s'>Sim</option>
+                                    <option value='n'>Não</option>
                                 </select>
                             </div>
                         </div>
