@@ -47,4 +47,7 @@ export interface DirData {
 export interface GlobalStateInterface {
     currentUser: UserData | null | undefined,
     setCurrentUser: Dispatch<SetStateAction<UserData | null | undefined>>
+    isSidebarClosed: boolean,
+    setIsSidebarClosed: Dispatch<SetStateAction<boolean>>
+
 }

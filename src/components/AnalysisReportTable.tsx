@@ -89,7 +89,11 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
             });
 
         return filtered;
+    }
 
+    const fileName = (path: string): string => {
+        const arr = path.split("/");
+        return arr[arr.length - 1];
     }
 
     return (<>
@@ -137,8 +141,8 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                 {filteredData()?.map(item => <tr key={item.hash} className={getRowClass(item)}>
                     <td>{item.id}</td>
                     <td>
-                        <a className='link' onClick={() => setShowModal(item.id)}>
-                            {item.file}
+                        <a className='link' onClick={() => setShowModal(item.id)} title={item.file}>
+                            {fileName(item.file)}
                         </a>
 
                         {showModal === item.id ?
