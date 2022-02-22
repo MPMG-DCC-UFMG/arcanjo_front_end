@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useImperativeHandle, useState } from 'react';
 import AnalysisService from '../services/analysisService';
 import { AnalysisData, AnalysisReportData } from '../types/types';
 import Modal from '../components/Modal';
@@ -14,7 +14,7 @@ interface filtersInterface {
 const videoExtensions: string[] = ['wav', 'qt', 'mpeg', 'mpg', 'avi', 'mp4', '3gp', 'mov', 'lvl', 'm4v', 'wmv'];
 const imageExtensions: string[] = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff'];
 
-function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: AnalysisData }) {
+function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: AnalysisData }, ref: any) {
     const [data, setData] = useState<AnalysisReportData[] | null>();
     const [filters, setFilters] = useState<filtersInterface | null>({
         filter: "",
@@ -25,7 +25,11 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
     const analysisService = new AnalysisService();
 
     const loadReport = async () => {
-        const response = await analysisService.report(id);
+        let response = await analysisService.report(id);
+        response = response.map(r => {
+            r.selected = true;
+            return r;
+        });
         setData(response);
     }
 
@@ -96,6 +100,44 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
         return arr[arr.length - 1];
     }
 
+    const toggleSelected = (id: number) => {
+        if (data) {
+            const d = [...data];
+            const index = d.findIndex(ard => ard.id === id);
+            d[index].selected = !d[index].selected;
+            setData(d);
+        }
+    }
+
+    const toggleAllSelected = () => {
+        if (data) {
+            let d = [...data];
+            const isChecked = !isAllSelected();
+            d = d.map(temp => {
+                temp.selected = isChecked;
+                console.log(temp);
+                return temp;
+            })
+            setData(d);
+        }
+    }
+
+    const isAllSelected = (): boolean => data?.every(d => d.selected) || false;
+
+    const getSelectedIds = (): string[] => data?.filter(d => d.selected).map(d => d.id.toString()) || [];
+    const getFilteredIds = (): string[] => filteredData()?.map(d => d.id.toString()) || [];
+
+    useImperativeHandle(
+        ref,
+        () => {
+            return {
+                getSelectedIds,
+                getFilteredIds,
+            }
+        }
+    );
+
+
     return (<>
         <div className="my-2">
             <Card>
@@ -127,6 +169,9 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
         <table>
             <thead>
                 <tr>
+                    <th>
+                        <input type="checkbox" checked={isAllSelected()} onClick={() => toggleAllSelected()} />
+                    </th>
                     <th>#</th>
                     <th>Arquivo</th>
                     <th>Hash</th>
@@ -138,7 +183,10 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                 </tr>
             </thead>
             <tbody>
-                {filteredData()?.map(item => <tr key={item.hash} className={getRowClass(item)}>
+                {filteredData()?.map((item) => <tr key={item.hash} className={getRowClass(item)}>
+                    <td>
+                        <input type="checkbox" checked={item.selected} onClick={() => toggleSelected(item.id)} />
+                    </td>
                     <td>{item.id}</td>
                     <td>
                         <a className='link' onClick={() => setShowModal(item.id)} title={item.file}>
@@ -168,4 +216,4 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
     </>);
 }
 
-export default AnalysisReportTable;
+export default React.forwardRef(AnalysisReportTable);

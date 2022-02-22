@@ -37,6 +37,7 @@ export interface AnalysisReportData {
     ages: string;
     children: number;
     classification: string;
+    selected: boolean
 }
 
 export interface DirData {
