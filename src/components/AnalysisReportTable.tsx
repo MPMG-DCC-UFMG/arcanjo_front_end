@@ -34,7 +34,9 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
     }
 
     const fileUrl = (item: AnalysisReportData) => {
-        return `${process.env.REACT_APP_BACKEND_URL}/storage?file=${item.file}`;
+        return item.type === "image"
+            ? `${process.env.REACT_APP_BACKEND_URL}/storage?file=${item.file}`
+            : `${process.env.REACT_APP_BACKEND_URL}/storage?file=${item.thumbnail}&removeStoragePrefix=true`;
     }
 
     useEffect(() => {
@@ -88,8 +90,8 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
             filtered = filtered.filter(item => {
                 if (filters.class === 'child') return item.classification.indexOf('menores de idade') >= 0;
                 if (filters.class === 'nsfw') return item.classification.indexOf('pornografia') >= 0;
-                if (filters.class === 'child_nsfw')
-                    return item.classification.indexOf('pornografia') >= 0 && item.classification.indexOf('pornografia') >= 0;
+                if (filters.class === 'nsfw_child')
+                    return item.classification.indexOf('menores de idade') >= 0 && item.classification.indexOf('pornografia') >= 0;
             });
 
         return filtered;
@@ -179,11 +181,12 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                     <th>Faces</th>
                     <th>Idades</th>
                     <th>Crianças</th>
+                    <th>Timestamp</th>
                     <th>Classe</th>
                 </tr>
             </thead>
             <tbody>
-                {filteredData()?.map((item) => <tr key={item.hash} className={getRowClass(item)}>
+                {filteredData()?.map((item) => <tr key={`${item.id}${item.hash}`} className={getRowClass(item)}>
                     <td>
                         <input type="checkbox" checked={item.selected} onClick={() => toggleSelected(item.id)} />
                     </td>
@@ -205,10 +208,11 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                             : null}
                     </td>
                     <td title={item.hash}><div className='inline-block truncate w-32'>{item.hash}</div></td>
-                    <td>{item.nsfw}</td>
-                    <td>{item.faces}</td>
-                    <td>{item.ages}</td>
-                    <td>{item.children}</td>
+                    <td>{item.nsfw || "-"}</td>
+                    <td>{item.faces || "-"}</td>
+                    <td>{item.ages || "-"}</td>
+                    <td>{item.children || "-"}</td>
+                    <td>{item.timestamp || "-"}</td>
                     <td>{item.classification}</td>
                 </tr>)}
             </tbody>

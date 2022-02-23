@@ -36,7 +36,10 @@ export interface AnalysisReportData {
     faces: number;
     ages: string;
     children: number;
+    thumbnail?: string;
+    timestamp?: string;
     classification: string;
+    type: string;
     selected: boolean
 }
 
