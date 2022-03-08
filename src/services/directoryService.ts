@@ -11,4 +11,8 @@ export default class DirectoryService extends ApiRequest {
         return await this.get("", path ? `path=${path}` : undefined);
     }
 
+    async getAvailability(path?: string) {
+        return await this.get("fileTypes", path ? `path=${path}` : undefined);
+    }
+
 }

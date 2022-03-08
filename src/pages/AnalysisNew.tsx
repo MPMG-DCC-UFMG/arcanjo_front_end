@@ -1,4 +1,4 @@
-import React, { createRef, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
@@ -9,6 +9,7 @@ import Label from '../components/Label';
 import Subtitle from '../components/Subtitle';
 import Title from '../components/Title';
 import AnalysisService from '../services/analysisService';
+import DirectoryService from '../services/directoryService';
 import Sidebar from '../templates/Sidebar';
 import { AnalysisData } from '../types/types';
 
@@ -16,7 +17,23 @@ function AnalysisNew() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean | undefined>(false);
     const [selectedDir, setSelectedDir] = useState<string>("");
+    const [typeAvailability, setTypeAvailability] = useState<{ images: number; videos: number; } | null>();
     const analysisService = new AnalysisService();
+    const dirService = new DirectoryService();
+
+    useEffect(() => {
+        checkTypeAvailability();
+    }, [selectedDir])
+
+    const checkTypeAvailability = async () => {
+        setTypeAvailability(null);
+        try {
+            const availability = await dirService.getAvailability(selectedDir);
+            setTypeAvailability(availability);
+        } catch {
+            setTypeAvailability({ images: 0, videos: 0 });
+        }
+    }
 
     const saveAnalysis = async (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -68,14 +85,17 @@ function AnalysisNew() {
                     </div>
                     <div className="my-3">
                         <Label>Tipos de arquivos a serem analisados</Label>
-                        <div className="flex gap-6">
-                            <div>
-                                <label><input name='image' className='accent-primary' type='checkbox' defaultChecked /> Imagens</label>
+                        {typeAvailability
+                            ? <div className="flex gap-6">
+                                <div>
+                                    <label><input name='image' className='accent-primary' type='checkbox' disabled={typeAvailability?.images === 0} /> Imagens</label>
+                                </div>
+                                <div>
+                                    <label><input name='video' className='accent-primary' type='checkbox' disabled={typeAvailability?.videos === 0} /> Vídeos</label>
+                                </div>
                             </div>
-                            <div>
-                                <label><input name='video' className='accent-primary' type='checkbox' defaultChecked /> Vídeos</label>
-                            </div>
-                        </div>
+                            : <i className="ri-loader-2-line inline-block animate-spin"></i>
+                        }
                     </div>
 
                     <Divider />
