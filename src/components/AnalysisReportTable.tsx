@@ -72,10 +72,10 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
 
         if (filters?.filter)
             filtered = filtered.filter(item => (
-                item.file.indexOf(filters.filter) >= 0
-                || item.hash.indexOf(filters.filter) >= 0
-                || item.nsfw.indexOf(filters.filter) >= 0
-                || item.ages.indexOf(filters.filter) >= 0
+                item.file?.indexOf(filters.filter) >= 0
+                || item.hash?.indexOf(filters.filter) >= 0
+                || item.nsfw?.indexOf(filters.filter) >= 0
+                || item.ages?.indexOf(filters.filter) >= 0
             ));
 
         if (filters?.type)
