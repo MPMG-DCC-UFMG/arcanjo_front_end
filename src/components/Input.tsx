@@ -13,6 +13,15 @@ interface InputProps {
 function Input({ name, value, defaultValue, placeholder, type, required, onChange }: InputProps) {
     const [showPlaceholder, setShowPlaceholder] = useState<Boolean>(false);
     const ref = useRef<any>();
+    let inputParams: any = {};
+
+    if (type === "number") {
+        inputParams = {
+            max: 1,
+            min: 0,
+            step: 0.01
+        }
+    }
 
     const onChangeLocal = (ev: React.FormEvent<HTMLInputElement>) => {
         setShowPlaceholder(ref.current.value.length > 0);
@@ -35,6 +44,7 @@ function Input({ name, value, defaultValue, placeholder, type, required, onChang
             placeholder={placeholder}
             type={type}
             required={required}
+            {...inputParams}
         />
     </div>
     );

@@ -61,7 +61,7 @@ function AnalysisReport() {
         <Sidebar>
             {analysis
                 ? <div className='w-full'>
-                    <Title>Log do processamento</Title>
+                    <Title>Resultado da análise</Title>
                     <div className="flex">
                         <div className="flex-1">
                             <AnalysisSummary analysis={analysis} />
