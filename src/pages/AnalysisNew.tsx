@@ -26,13 +26,30 @@ function AnalysisNew() {
     }, [selectedDir])
 
     const checkTypeAvailability = async () => {
+        if (!selectedDir) {
+            setEmptyAvailability();
+            return;
+        }
         setTypeAvailability(null);
         try {
             const availability = await dirService.getAvailability(selectedDir);
             setTypeAvailability(availability);
         } catch {
-            setTypeAvailability({ images: 0, videos: 0 });
+            setEmptyAvailability();
         }
+    }
+
+    const setEmptyAvailability = () => {
+        setTypeAvailability({ images: 0, videos: 0 });
+    }
+
+    const validateFields = (values: any) => {
+        return Boolean(values.name)
+            && Boolean(values.path)
+            && Boolean(values.porn_threshold)
+            && Boolean(values.face_threshold)
+            && Boolean(values.child_threshold)
+            && Boolean(values.age_threshold)
     }
 
     const saveAnalysis = async (e: React.SyntheticEvent) => {
@@ -49,18 +66,29 @@ function AnalysisNew() {
             age_threshold: { value: number };
         };
 
+        const data: AnalysisData = {
+            name: target.name.value,
+            path: selectedDir,
+            image: target.image.checked,
+            video: target.video.checked,
+            porn_threshold: target.porn_threshold.value,
+            face_threshold: target.face_threshold.value,
+            child_threshold: target.child_threshold.value,
+            age_threshold: target.age_threshold.value
+        };
+
+        if (!validateFields(data)) {
+            toast.error("Preencha todos os campos antes de iniciar o processamento");
+            return;
+        }
+
+        if (!data.image && !data.video) {
+            toast.error("Selecione pelo menos um tipo de arquivo (imagens ou videos) para continuar.");
+            return;
+        }
+
         setLoading(true);
         try {
-            const data: AnalysisData = {
-                name: target.name.value,
-                path: selectedDir,
-                image: target.image.checked,
-                video: target.video.checked,
-                porn_threshold: target.porn_threshold.value,
-                face_threshold: target.face_threshold.value,
-                child_threshold: target.child_threshold.value,
-                age_threshold: target.age_threshold.value
-            };
             const response = await analysisService.save(data);
             navigate(`/analysis/${response.id}/logs`);
         } catch (err: any) {
@@ -88,10 +116,10 @@ function AnalysisNew() {
                         {typeAvailability
                             ? <div className="flex gap-6">
                                 <div>
-                                    <label><input name='image' className='accent-primary' type='checkbox' disabled={typeAvailability?.images === 0} /> Imagens</label>
+                                    <label><input name='image' className='accent-primary' type='checkbox' disabled={typeAvailability?.images === 0} defaultChecked={typeAvailability?.images >= 1} /> Imagens</label>
                                 </div>
                                 <div>
-                                    <label><input name='video' className='accent-primary' type='checkbox' disabled={typeAvailability?.videos === 0} /> Vídeos</label>
+                                    <label><input name='video' className='accent-primary' type='checkbox' disabled={typeAvailability?.videos === 0} defaultChecked={typeAvailability?.videos >= 1} /> Vídeos</label>
                                 </div>
                             </div>
                             : <i className="ri-loader-2-line inline-block animate-spin"></i>
@@ -103,16 +131,16 @@ function AnalysisNew() {
                     <Subtitle>Configurações</Subtitle>
                     <div className="flex flex-wrap -mx-2">
                         <div className='w-1/2 p-2'>
-                            <Input name='porn_threshold' defaultValue={0.3} placeholder='Limiar de Pornografia' />
+                            <Input type="number" name='porn_threshold' defaultValue={0.3} placeholder='Limiar de Pornografia' />
                         </div>
                         <div className='w-1/2 p-2'>
-                            <Input name='face_threshold' defaultValue={0.8} placeholder='Limiar de Detecção de Face' />
+                            <Input type="number" name='face_threshold' defaultValue={0.8} placeholder='Limiar de Detecção de Face' />
                         </div>
                         <div className='w-1/2 p-2'>
-                            <Input name='child_threshold' defaultValue={0.7} placeholder='Limiar de Detecção de Crianças' />
+                            <Input type="number" name='child_threshold' defaultValue={0.7} placeholder='Limiar de Detecção de Crianças' />
                         </div>
                         <div className='w-1/2 p-2'>
-                            <Input name='age_threshold' defaultValue={0.7} placeholder='Limiar de estimativa de idade' />
+                            <Input type="number" name='age_threshold' defaultValue={0.7} placeholder='Limiar de estimativa de idade' />
                         </div>
                     </div>
 

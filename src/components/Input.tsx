@@ -7,7 +7,7 @@ interface InputProps {
     defaultValue?: string | number,
     required?: boolean,
     onChange?: (ev: React.FormEvent<HTMLInputElement>) => void | undefined,
-    type?: "text" | "password" | "email" | "file"
+    type?: "text" | "password" | "email" | "file" | "number"
 }
 
 function Input({ name, value, defaultValue, placeholder, type, required, onChange }: InputProps) {
