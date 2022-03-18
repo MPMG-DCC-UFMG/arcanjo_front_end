@@ -21,7 +21,7 @@ function SidebarCard({ buttons, isClosed = false }: ButtonProps) {
         <Card>
             <div className="text-center">
                 <Link to="/">
-                    <img src="/images/logo.svg" alt="Arcanjo" width="180" className={`${isClosed ? 'mt-6' : ''} inline-block`} />
+                    <img src="/images/logo.svg" alt="Arcanjo" width="220" className={`${isClosed ? 'mt-6' : ''} inline-block`} />
                 </Link>
                 <div className="mt-8">
                     {buttons?.map(button => <div key={button.label} className='my-4'>
