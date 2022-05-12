@@ -36,6 +36,9 @@ function Login() {
     return (
         <CenterVertical>
             <div className="w-full max-w-lg">
+                <div className="text-center">
+                    <img src='/images/anjo.png' width={200} className="mx-auto mb-4" />
+                </div>
                 <Card>
                     <div className='text-center'>
                         <h1 className='title'>Login</h1>
