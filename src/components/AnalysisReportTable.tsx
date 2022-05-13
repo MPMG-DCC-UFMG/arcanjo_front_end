@@ -4,6 +4,7 @@ import { AnalysisData, AnalysisReportData } from '../types/types';
 import Modal from '../components/Modal';
 import Button from './Button';
 import Card from './Card';
+import ApiRequest from '../services/apiRequest';
 
 interface filtersInterface {
     filter: string;
@@ -35,8 +36,8 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
 
     const fileUrl = (item: AnalysisReportData) => {
         return item.type === "image"
-            ? `${process.env.REACT_APP_BACKEND_URL}/storage?file=${item.file}`
-            : `${process.env.REACT_APP_BACKEND_URL}/storage?file=${item.thumbnail}&removeStoragePrefix=true`;
+            ? `${ApiRequest.host}/storage?file=${item.file}`
+            : `${ApiRequest.host}/storage?file=${item.thumbnail}&removeStoragePrefix=true`;
     }
 
     useEffect(() => {

@@ -58,29 +58,34 @@ function DirectorySelect({ onSelect }: DirectorySelectProps) {
     return (<>
         {showModal ?
             <Modal>
-                <div className='-mt-4'>
-                    <Subtitle>Selecionar diretório</Subtitle>
-                    <div className='p-2 bg-gray-100 rounded my-4 overflow-x-auto whitespace-nowrap'>
-                        {renderPathBreadcrumb()}
+                <>
+                    <a onClick={() => setShowModal(false)} className='float-right opacity-40 text-xl cursor-pointer hover:opacity-70'>
+                        <i className="ri-close-circle-fill"></i>
+                    </a>
+                    <div className='-mt-4'>
+                        <Subtitle>Selecionar diretório</Subtitle>
+                        <div className='p-2 bg-gray-100 rounded my-4 overflow-x-auto whitespace-nowrap'>
+                            {renderPathBreadcrumb()}
+                        </div>
+                        <ul className='divide-y my-4 overflow-y-auto max-h-[50vh]'>
+                            {
+                                dir?.contents.map(content =>
+                                    <li className='p-2' key={content}>
+                                        <a onClick={() => changeDirectory(content)} className='text-gray-700 hover:text-gray-900 cursor-pointer'>
+                                            <i className="ri-folder-fill"></i> {content}
+                                        </a>
+                                    </li>
+                                )
+                            }
+                            {dir?.contents.length === 0 ? <li className='text-center py-8 font-bold text-gray-400'>
+                                O diretório selecionado não possui subdiretórios
+                            </li> : null}
+                        </ul>
+                        <div className='text-right mt-4'>
+                            <Button onClick={selectCurrentDirectory} outline>Selecionar diretório</Button>
+                        </div>
                     </div>
-                    <ul className='divide-y my-4 overflow-y-auto max-h-[50vh]'>
-                        {
-                            dir?.contents.map(content =>
-                                <li className='p-2' key={content}>
-                                    <a onClick={() => changeDirectory(content)} className='text-gray-700 hover:text-gray-900 cursor-pointer'>
-                                        <i className="ri-folder-fill"></i> {content}
-                                    </a>
-                                </li>
-                            )
-                        }
-                        {dir?.contents.length === 0 ? <li className='text-center py-8 font-bold text-gray-400'>
-                            O diretório selecionado não possui subdiretórios
-                        </li> : null}
-                    </ul>
-                    <div className='text-right mt-4'>
-                        <Button onClick={selectCurrentDirectory} outline>Selecionar diretório</Button>
-                    </div>
-                </div>
+                </>
             </Modal>
             : null}
 

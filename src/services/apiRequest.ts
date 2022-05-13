@@ -12,6 +12,10 @@ export default class ApiRequest {
         return `http://${window.location.hostname}:${process.env.REACT_APP_BACKEND_PORT}`;
     }
 
+    static get host() {
+        return `http://${window.location.hostname}:${process.env.REACT_APP_BACKEND_PORT}`;
+    }
+
     protected getHeaders(): AxiosRequestHeaders {
         const headers: AxiosRequestHeaders = {};
 
