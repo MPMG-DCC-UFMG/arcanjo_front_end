@@ -5,6 +5,7 @@ import Modal from '../components/Modal';
 import Button from './Button';
 import Card from './Card';
 import ApiRequest from '../services/apiRequest';
+import Pagination from './Pagination';
 
 interface filtersInterface {
     filter: string;
@@ -16,6 +17,8 @@ const videoExtensions: string[] = ['wav', 'qt', 'mpeg', 'mpg', 'avi', 'mp4', '3g
 const imageExtensions: string[] = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff'];
 
 function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: AnalysisData }, ref: any) {
+    const [pageSize, setPageSize] = useState<number>(100);
+    const [page, setPage] = useState<number>(1);
     const [data, setData] = useState<AnalysisReportData[] | null>();
     const [filters, setFilters] = useState<filtersInterface | null>({
         filter: "",
@@ -97,6 +100,9 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
 
         return filtered;
     }
+
+    const pageCount = () => Math.ceil((filteredData() || []).length / pageSize);
+    const paginateData = (array: AnalysisReportData[]) => array.slice((page - 1) * pageSize, page * pageSize);
 
     const fileName = (path: string): string => {
         const arr = path.split("/");
@@ -187,7 +193,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                 </tr>
             </thead>
             <tbody>
-                {filteredData()?.map((item) => <tr key={`${item.id}${item.hash}`} className={getRowClass(item)}>
+                {paginateData(filteredData() || []).map((item) => <tr key={`${item.id}${item.hash}`} className={getRowClass(item)}>
                     <td>
                         <input type="checkbox" checked={item.selected} onClick={() => toggleSelected(item.id)} />
                     </td>
@@ -218,6 +224,8 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                 </tr>)}
             </tbody>
         </table>
+
+        <Pagination pageCount={pageCount()} currentPage={page} onChangePage={setPage} />
     </>);
 }
 

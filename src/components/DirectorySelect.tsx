@@ -82,7 +82,9 @@ function DirectorySelect({ onSelect }: DirectorySelectProps) {
                             </li> : null}
                         </ul>
                         <div className='text-right mt-4'>
-                            <Button onClick={selectCurrentDirectory} outline>Selecionar diretório</Button>
+                            <Button onClick={() => setShowModal(false)} outline>Cancelar</Button>
+                            &nbsp;&nbsp;
+                            <Button onClick={selectCurrentDirectory}>Selecionar diretório</Button>
                         </div>
                     </div>
                 </>

@@ -57,6 +57,23 @@ function AnalysisReport() {
         }
     }
 
+    const exportPdf = (type?: string) => {
+        let ids = null;
+        switch (type) {
+            case "selected":
+                ids = (reportRef.current as any).getSelectedIds();
+                break;
+            case "filtered":
+                ids = (reportRef.current as any).getFilteredIds();
+                break;
+            default:
+                ids = [];
+                break;
+        }
+        if (id)
+            window.open(analysisService.reportDownloadPdfLink(id, ids))
+    }
+
     return (
         <Sidebar>
             {analysis
@@ -75,6 +92,21 @@ function AnalysisReport() {
                                 </DropdownMenu.Trigger>
 
                                 <DropdownMenu.Content sideOffset={5} className="bg-white w-72 text-center rounded shadow-card">
+                                    <DropdownMenu.Item className='p-2 bg-gray-100 font-bold text-slate-500 text-sm'>
+                                        Exportar em PDF
+                                    </DropdownMenu.Item>
+                                    <DropdownMenu.Item onClick={() => exportPdf()} className='cursor-pointer p-2 hover:bg-gray-100'>
+                                        Exportar relatório completo
+                                    </DropdownMenu.Item>
+                                    <DropdownMenu.Item onClick={() => exportPdf('selected')} className='cursor-pointer p-2 hover:bg-gray-100'>
+                                        Exportar itens selecionados
+                                    </DropdownMenu.Item>
+                                    <DropdownMenu.Item onClick={() => exportPdf('filtered')} className='cursor-pointer p-2 hover:bg-gray-100'>
+                                        Exportar resultado da busca/filtro
+                                    </DropdownMenu.Item>
+                                    <DropdownMenu.Item className='p-2 bg-gray-100 font-bold text-slate-500 text-sm'>
+                                        Exportar em XLSX
+                                    </DropdownMenu.Item>
                                     <DropdownMenu.Item onClick={() => exportAll()} className='cursor-pointer p-2 hover:bg-gray-100'>
                                         Exportar relatório completo
                                     </DropdownMenu.Item>

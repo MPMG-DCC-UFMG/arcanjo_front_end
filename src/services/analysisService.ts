@@ -31,4 +31,8 @@ export default class AnalysisService extends ApiRequest {
         return `${this.getHost()}/analysis/${id}/report/download?ids=${ids.join(",")}`;
     }
 
+    reportDownloadPdfLink(id: number | string, ids: string[] = []) {
+        return `${this.getHost()}/analysis/${id}/report/pdf?ids=${ids.join(",")}`;
+    }
+
 }
