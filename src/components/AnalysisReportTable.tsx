@@ -5,7 +5,7 @@ import Modal from '../components/Modal';
 import Button from './Button';
 import Card from './Card';
 import ApiRequest from '../services/apiRequest';
-import Pagination from './Pagination';
+import { Pagination } from '@mui/material';
 
 interface filtersInterface {
     filter: string;
@@ -225,7 +225,12 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
             </tbody>
         </table>
 
-        <Pagination pageCount={pageCount()} currentPage={page} onChangePage={setPage} />
+        {pageCount() > 1 ?
+            <div className="flex justify-center">
+                <Pagination count={pageCount()} boundaryCount={2} siblingCount={2} shape="rounded" size='large' defaultPage={page} onChange={(ev, page) => setPage(page)} />
+            </div>
+            : null}
+
     </>);
 }
 
