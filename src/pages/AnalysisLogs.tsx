@@ -63,7 +63,7 @@ function AnalysisLogs() {
                         <Link to={`/analysis/${id}/report`}><Button>Acessar relatório</Button></Link>
                     </div> : null}
 
-                    <div className="mt-8 w-full bg-slate-900 text-white p-4 rounded-lg">
+                    <div className="mt-8 w-full bg-slate-900 text-white p-4 rounded-lg overflow-auto">
                         {nl2br(analysis.log || "Processando, aguarde...")}
                     </div>
                 </div>

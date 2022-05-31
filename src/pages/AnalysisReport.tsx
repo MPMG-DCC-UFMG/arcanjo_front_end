@@ -8,11 +8,12 @@ import Button from '../components/Button';
 import Title from '../components/Title';
 import AnalysisService from '../services/analysisService';
 import Sidebar from '../templates/Sidebar';
-import { AnalysisData } from '../types/types';
+import { AnalysisData, AnalysisReportData } from '../types/types';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 function AnalysisReport() {
     const [analysis, setAnalysis] = useState<AnalysisData | null>();
+    const [reportCount, setReportCount] = useState<number>(-1);
     const [showAlert, setShowAlert] = useState<boolean>(true);
     const { id } = useParams();
     const analysisService = new AnalysisService();
@@ -22,9 +23,16 @@ function AnalysisReport() {
         try {
             const response = await analysisService.getById(parseInt(id || '0'));
             setAnalysis(response);
+            loadReport(response.id);
         } catch (err: any) {
             toast.error(err);
         }
+    }
+
+
+    const loadReport = async (id: number | string) => {
+        let response = await analysisService.report(id);
+        setReportCount(response?.length || 0);
     }
 
     useEffect(() => {
@@ -72,6 +80,27 @@ function AnalysisReport() {
         }
         if (id)
             window.open(analysisService.reportDownloadPdfLink(id, ids))
+    }
+
+    if (reportCount === 0) {
+        return (<Sidebar>
+            <>
+                <Title>Resultado da análise</Title>
+                <AnalysisSummary analysis={analysis} hideStatus />
+                <div>
+                    <div className="my-4 card danger text-xs">
+                        <div className='flex items-center'>
+                            <div className='text-4xl mr-4'>
+                                <i className="ri-alert-fill"></i>
+                            </div>
+                            <div className='flex-1'>
+                                A análise NÃO foi executada com sucesso, verifique com o administrador se o Arcanjo possui permissão de execução sobre os dados selecionados.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        </Sidebar>)
     }
 
     return (

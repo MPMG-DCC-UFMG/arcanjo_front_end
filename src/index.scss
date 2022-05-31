@@ -21,6 +21,10 @@ body {
     &.alert {
         @apply bg-orange-100 text-orange-900 font-bold;
     }
+
+    &.danger {
+        @apply bg-red-100 text-red-900 font-bold;
+    }
 }
 
 .button {

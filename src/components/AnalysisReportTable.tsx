@@ -135,6 +135,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
 
     const getSelectedIds = (): string[] => data?.filter(d => d.selected).map(d => d.id.toString()) || [];
     const getFilteredIds = (): string[] => filteredData()?.map(d => d.id.toString()) || [];
+    const getDataLength = ():number => !data ? -1 : data.length;
 
     useImperativeHandle(
         ref,
@@ -142,6 +143,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
             return {
                 getSelectedIds,
                 getFilteredIds,
+                getDataLength
             }
         }
     );
