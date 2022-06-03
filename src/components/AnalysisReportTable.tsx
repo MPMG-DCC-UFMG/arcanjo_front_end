@@ -135,7 +135,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
 
     const getSelectedIds = (): string[] => data?.filter(d => d.selected).map(d => d.id.toString()) || [];
     const getFilteredIds = (): string[] => filteredData()?.map(d => d.id.toString()) || [];
-    const getDataLength = ():number => !data ? -1 : data.length;
+    const getDataLength = (): number => !data ? -1 : data.length;
 
     useImperativeHandle(
         ref,
@@ -147,6 +147,12 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
             }
         }
     );
+
+    const fixClassification = (classification: string): string => {
+        if (!classification || classification == "['']")
+            return "-"
+        else return classification
+    }
 
 
     return (<>
@@ -222,7 +228,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                     <td>{item.ages || "-"}</td>
                     <td>{item.children || "-"}</td>
                     <td>{item.timestamp || "-"}</td>
-                    <td>{item.classification}</td>
+                    <td>{fixClassification(item.classification)}</td>
                 </tr>)}
             </tbody>
         </table>

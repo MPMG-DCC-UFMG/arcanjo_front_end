@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Alert from '../components/Alert';
 import AnalysisReportTable from '../components/AnalysisReportTable';
 import AnalysisSummary from '../components/AnalysisSummary';
@@ -113,6 +113,7 @@ function AnalysisReport() {
                             <AnalysisSummary analysis={analysis} />
                         </div>
                         <div className="flex-1 text-right">
+                            <Link to={`/analysis/${id}/logs`}><Button outline>Log</Button>&nbsp;&nbsp;</Link>
                             <DropdownMenu.Root>
                                 <DropdownMenu.Trigger >
                                     <Button><>

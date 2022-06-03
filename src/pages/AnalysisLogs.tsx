@@ -22,13 +22,16 @@ function AnalysisLogs() {
 
             if (response.status === 'created')
                 startProcess();
+            if (response.status === 'processing')
+                startRefresh();
+
         } catch (err: any) {
             toast.error(err);
         }
     }
 
     const startRefresh = () => {
-        interval = setInterval(() => {
+        interval = setTimeout(() => {
             loadAnalysis();
         }, 1000);
     }
