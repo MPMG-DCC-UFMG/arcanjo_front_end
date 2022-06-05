@@ -10,6 +10,9 @@ module.exports = {
       },
       boxShadow: {
         'card': '0px 8px 16px rgba(0, 0, 0, 0.08)',
+      },
+      height: {
+        'log': 'calc(100vh - 340px)'
       }
     },
   },

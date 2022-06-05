@@ -86,7 +86,14 @@ function AnalysisReport() {
         return (<Sidebar>
             <>
                 <Title>Resultado da análise</Title>
-                <AnalysisSummary analysis={analysis} hideStatus />
+                <div className="flex">
+                    <div className="flex-1">
+                        <AnalysisSummary analysis={analysis} hideStatus />
+                    </div>
+                    <div className="flex-1 text-right">
+                        <Link to={`/analysis/${id}/logs`}><Button>Log</Button>&nbsp;&nbsp;</Link>
+                    </div>
+                </div>
                 <div>
                     <div className="my-4 card danger text-xs">
                         <div className='flex items-center'>
