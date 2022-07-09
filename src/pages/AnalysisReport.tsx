@@ -10,6 +10,7 @@ import AnalysisService from '../services/analysisService';
 import Sidebar from '../templates/Sidebar';
 import { AnalysisData, AnalysisReportData } from '../types/types';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import ApiRequest from '../services/apiRequest';
 
 function AnalysisReport() {
     const [analysis, setAnalysis] = useState<AnalysisData | null>();
@@ -40,28 +41,36 @@ function AnalysisReport() {
     }, []);
 
     const exportReport = () => {
-        if (id)
-            window.open(analysisService.reportDownloadLink(id))
+        if (id) {
+            const exportData = analysisService.reportDownloadLink(id);
+            ApiRequest.openWindowWithPost(exportData.url, exportData.data);
+        }
     }
 
     const exportAll = () => {
-        if (id)
-            window.open(analysisService.reportDownloadLink(id))
+        if (id) {
+            const exportData = analysisService.reportDownloadLink(id);
+            ApiRequest.openWindowWithPost(exportData.url, exportData.data)
+        }
     }
 
     const exportSelected = () => {
         if (reportRef && reportRef.current) {
             const ids = (reportRef.current as any).getSelectedIds();
-            if (id)
-                window.open(analysisService.reportDownloadLink(id, ids))
+            if (id) {
+                const exportData = analysisService.reportDownloadLink(id, ids);
+                ApiRequest.openWindowWithPost(exportData.url, exportData.data)
+            }
         }
     }
 
     const exportFiltered = () => {
         if (reportRef && reportRef.current) {
             const ids = (reportRef.current as any).getFilteredIds();
-            if (id)
-                window.open(analysisService.reportDownloadLink(id, ids))
+            if (id) {
+                const exportData = analysisService.reportDownloadLink(id, ids);
+                ApiRequest.openWindowWithPost(exportData.url, exportData.data)
+            }
         }
     }
 
@@ -78,8 +87,10 @@ function AnalysisReport() {
                 ids = [];
                 break;
         }
-        if (id)
-            window.open(analysisService.reportDownloadPdfLink(id, ids))
+        if (id) {
+            const exportData = analysisService.reportDownloadPdfLink(id, ids);
+            ApiRequest.openWindowWithPost(exportData.url, exportData.data)
+        }
     }
 
     if (reportCount === 0) {

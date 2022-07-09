@@ -28,11 +28,21 @@ export default class AnalysisService extends ApiRequest {
     }
 
     reportDownloadLink(id: number | string, ids: string[] = []) {
-        return `${this.getHost()}/analysis/${id}/report/download?ids=${ids.join(",")}`;
+        return {
+            url: `${this.getHost()}/analysis/${id}/report/download`,
+            data: {
+                ids: ids.join(",")
+            }
+        }
     }
 
     reportDownloadPdfLink(id: number | string, ids: string[] = []) {
-        return `${this.getHost()}/analysis/${id}/report/pdf?ids=${ids.join(",")}`;
+        return {
+            url: `${this.getHost()}/analysis/${id}/report/pdf`,
+            data: {
+                ids: ids.join(",")
+            }
+        }
     }
 
 }

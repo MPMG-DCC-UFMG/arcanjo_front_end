@@ -11,6 +11,7 @@ import Button from '../components/Button';
 
 function AnalysisLogs() {
     const [analysis, setAnalysis] = useState<AnalysisData | null>();
+    const [stickBottom, setStickBottom] = useState<boolean>(true);
     const { id } = useParams();
     const analysisService = new AnalysisService();
     let interval: NodeJS.Timer;
@@ -55,6 +56,14 @@ function AnalysisLogs() {
         }
     }, []);
 
+    useEffect(() => {
+        if (!stickBottom) return;
+
+        const objDiv = document.getElementById("log");
+        if (objDiv)
+            objDiv.scrollTop = objDiv.scrollHeight;
+    }, [analysis])
+
     return (
         <Sidebar>
             {analysis
@@ -64,9 +73,15 @@ function AnalysisLogs() {
 
                     {analysis.status === 'completed' ? <div className='my-4'>
                         <Link to={`/analysis/${id}/report`}><Button>Acessar relatório</Button></Link>
-                    </div> : null}
+                    </div> :
+                        <div className='my-4'>
+                            <label>
+                                <input type="checkbox" checked={stickBottom} onChange={() => setStickBottom(!stickBottom)} /> Fixar scroll no fim
+                            </label>
+                        </div>
+                    }
 
-                    <div className="mt-8 w-full bg-slate-900 text-white p-4 rounded-lg overflow-auto h-log">
+                    <div id='log' className="mt-8 w-full bg-slate-900 text-white p-4 rounded-lg overflow-auto h-log">
                         {nl2br(analysis.log || "Processando, aguarde...")}
                     </div>
                 </div>
