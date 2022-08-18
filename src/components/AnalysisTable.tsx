@@ -7,7 +7,11 @@ import EmptyState from './EmptyState';
 import Loading from './Loading';
 import TableRowOrderIcon from './TableRowOrderIcon';
 
-function AnalysisTable() {
+interface AnalysisTableProps {
+    filter?: string
+}
+
+function AnalysisTable({ filter }: AnalysisTableProps) {
     const [data, setData] = useState<AnalysisData[] | null>(null);
     const [orderedBy, setOrderedBy] = useState<string>("id ASC");
     const analysisService = new AnalysisService();
@@ -18,7 +22,13 @@ function AnalysisTable() {
         setData(response);
     }
 
-    const orderedData = () => data?.sort((a, b) => {
+    const filteredData = () => filter ? data?.filter(item =>
+        item.name.toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        || (item.id || 0).toString().indexOf(filter.toLowerCase()) >= 0
+        || new Date(item.createdAt || "").toLocaleString('pt-BR').indexOf(filter) >= 0
+    ) : data;
+
+    const orderedData = () => filteredData()?.sort((a, b) => {
         switch (orderedBy) {
             case "id ASC":
                 return (a.id && b.id && a.id > b.id) ? 1 : -1

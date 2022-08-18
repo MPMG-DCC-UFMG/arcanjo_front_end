@@ -23,6 +23,10 @@ export default class AnalysisService extends ApiRequest {
         return await this.postUrl(`${id}/process`);
     }
 
+    async cancel(id: number) {
+        return await this.deleteUrl(`${id}/process`);
+    }
+
     async report(id: number | string): Promise<AnalysisReportData[]> {
         return await this.get(`${id}/report`);
     }

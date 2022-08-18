@@ -70,6 +70,12 @@ export default class ApiRequest {
         });
     }
 
+    protected async deleteUrl(url: string) {
+        return await axios.delete(`${this.getHost()}/${this._endpoint}/${url}`, {
+            headers: this.getHeaders()
+        });
+    }
+
     static openWindowWithPost(url: string, data: any) {
         var form = document.createElement("form");
         form.target = "_blank";

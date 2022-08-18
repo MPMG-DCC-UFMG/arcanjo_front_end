@@ -41,9 +41,14 @@ function AnalysisLogs() {
         clearInterval(interval);
     }
 
-
     const startProcess = async () => {
         await analysisService.process(parseInt(id || '0'));
+        startRefresh();
+        loadAnalysis();
+    }
+
+    const cancelProcess = async () => {
+        await analysisService.cancel(parseInt(id || '0'));
         startRefresh();
         loadAnalysis();
     }
@@ -74,10 +79,15 @@ function AnalysisLogs() {
                     {analysis.status === 'completed' ? <div className='my-4'>
                         <Link to={`/analysis/${id}/report`}><Button>Acessar relatório</Button></Link>
                     </div> :
-                        <div className='my-4'>
-                            <label>
-                                <input type="checkbox" checked={stickBottom} onChange={() => setStickBottom(!stickBottom)} /> Fixar scroll no fim
-                            </label>
+                        <div className='my-4 grid grid-cols-2 items-end'>
+                            <div>
+                                <label>
+                                    <input type="checkbox" checked={stickBottom} onChange={() => setStickBottom(!stickBottom)} /> Fixar scroll no fim
+                                </label>
+                            </div>
+                            <div className='text-right'>
+                                {analysis.status === "processing" ? <Button onClick={() => cancelProcess()} outline>Cancelar processamento</Button> : null}
+                            </div>
                         </div>
                     }
 
