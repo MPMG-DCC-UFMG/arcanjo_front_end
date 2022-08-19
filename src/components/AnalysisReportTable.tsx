@@ -25,7 +25,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
         type: "",
         class: ""
     });
-    const [showModal, setShowModal] = useState<string | number | null>();
+    const [showModal, setShowModal] = useState<{ url: string, type: string } | null>();
     const analysisService = new AnalysisService();
 
     const loadReport = async () => {
@@ -37,8 +37,8 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
         setData(response);
     }
 
-    const fileUrl = (item: AnalysisReportData) => {
-        return item.type === "image"
+    const fileUrl = (item: AnalysisReportData, forceFile?: boolean) => {
+        return item.type === "image" || forceFile
             ? `${ApiRequest.host}/storage?file=${item.file}`
             : `${ApiRequest.host}/storage?file=${item.thumbnail}&removeStoragePrefix=true`;
     }
@@ -205,22 +205,25 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                     <td>
                         <input type="checkbox" checked={item.selected} onClick={() => toggleSelected(item.id)} />
                     </td>
-                    <td>{item.id}</td>
                     <td>
-                        <a className='link' onClick={() => setShowModal(item.id)} title={item.file}>
+                        {
+                            item.type === "video"
+                                ? <a className='link' onClick={() => setShowModal({
+                                    url: fileUrl(item),
+                                    type: "image"
+                                })} title={item.file}>
+                                    {item.id}
+                                </a>
+                                : item.id
+                        }
+                    </td>
+                    <td>
+                        <a className='link' onClick={() => setShowModal({
+                            url: fileUrl(item, item.type === "video"),
+                            type: item.type
+                        })} title={item.file}>
                             {fileName(item.file)}
                         </a>
-
-                        {showModal === item.id ?
-                            <Modal><>
-                                <div className='max-h-[80vh] overflow-y-auto'>
-                                    <img src={fileUrl(item)} width="100%" />
-                                </div>
-                                <div className='mt-4 text-right'>
-                                    <Button outline onClick={() => setShowModal(null)}>Fechar</Button>
-                                </div>
-                            </></Modal>
-                            : null}
                     </td>
                     <td title={item.hash}><div className='inline-block truncate w-32'>{item.hash}</div></td>
                     <td>{item.nsfw || "-"}</td>
@@ -232,6 +235,20 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                 </tr>)}
             </tbody>
         </table>
+
+        {showModal ?
+            <Modal><>
+                <div className='max-h-[80vh] overflow-y-auto'>
+                    {showModal.type === "image"
+                        ? <img src={showModal.url} width="100%" />
+                        : <video src={showModal.url} autoPlay controls width="100%" />
+                    }
+                </div>
+                <div className='mt-4 text-right'>
+                    <Button outline onClick={() => setShowModal(null)}>Fechar</Button>
+                </div>
+            </></Modal>
+            : null}
 
         {pageCount() > 1 ?
             <div className="flex justify-center">
