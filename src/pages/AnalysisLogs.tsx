@@ -82,7 +82,7 @@ function AnalysisLogs() {
                         <div className='my-4 grid grid-cols-2 items-end'>
                             <div>
                                 <label>
-                                    <input type="checkbox" checked={stickBottom} onChange={() => setStickBottom(!stickBottom)} /> Fixar scroll no fim
+                                    <input type="checkbox" checked={stickBottom} onChange={() => setStickBottom(!stickBottom)} /> Fixar barra de rolagem no fim
                                 </label>
                             </div>
                             <div className='text-right'>
