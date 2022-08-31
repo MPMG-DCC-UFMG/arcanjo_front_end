@@ -16,6 +16,18 @@ interface filtersInterface {
 const videoExtensions: string[] = ['wav', 'qt', 'mpeg', 'mpg', 'avi', 'mp4', '3gp', 'mov', 'lvl', 'm4v', 'wmv'];
 const imageExtensions: string[] = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff'];
 
+const tooltipText = {
+    id: "Para os arquivos de vídeo são disponibilizadas thumbnails, que são imagens do vídeo (frames) em que ocorrem as classes identificadas.",
+    file: "Mídia analisada.",
+    hash: "Hash MD5 dos arquivos analisados",
+    nsfw: "Confiança na ocorrência de pornografia.",
+    faces: "Quantidade de faces identificadas.",
+    age: "Faixa etária estimada para as faces identificadas.",
+    childs: "Quantidade de crianças identificadas.",
+    timestamp: "Disponível para arquivos de vídeos: são indicados (amostralmente) os instantes de tempo em que ocorrem as classes identificadas.",
+    classification: "Classe atribuída à mídia pelo modelo neural: “Pode conter menores de idade”; “Pode conter pornografia”; “Pode conter pornografia. Pode conter menores de idade”; “Pode não conter menores de idade ou pornografia”."
+}
+
 function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: AnalysisData }, ref: any) {
     const [pageSize, setPageSize] = useState<number>(100);
     const [page, setPage] = useState<number>(1);
@@ -92,6 +104,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
 
         if (filters?.class)
             filtered = filtered.filter(item => {
+                if (filters.class === 'none') return !item.classification || item.classification.indexOf('não') >= 0;
                 if (filters.class === 'child') return item.classification.indexOf('menores de idade') >= 0;
                 if (filters.class === 'nsfw') return item.classification.indexOf('pornografia') >= 0;
                 if (filters.class === 'nsfw_child')
@@ -150,7 +163,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
 
     const fixClassification = (classification: string): string => {
         if (!classification || classification == "['']")
-            return "-"
+            return "Pode não conter menores de idade ou pornografia"
         else return classification
     }
 
@@ -178,6 +191,7 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                             <option value="child">Pode conter menores de idade.</option>
                             <option value="nsfw">Pode conter pornografia.</option>
                             <option value="nsfw_child">Pode conter menores de idade e pornografia.</option>
+                            <option value="none">Pode não conter menores de idade ou pornografia</option>
                         </select>
                     </div>
                 </div>
@@ -189,15 +203,15 @@ function AnalysisReportTable({ id, analysis }: { id: number | string, analysis: 
                     <th>
                         <input type="checkbox" checked={isAllSelected()} onClick={() => toggleAllSelected()} />
                     </th>
-                    <th>#</th>
-                    <th>Arquivo</th>
-                    <th>Hash</th>
-                    <th>NSFW</th>
-                    <th>Faces</th>
-                    <th>Idades</th>
-                    <th>Crianças</th>
-                    <th>Timestamp</th>
-                    <th>Classe</th>
+                    <th className="cursor-help" title={tooltipText.id}>#</th>
+                    <th className="cursor-help" title={tooltipText.file}>Arquivo</th>
+                    <th className="cursor-help" title={tooltipText.hash}>Hash</th>
+                    <th className="cursor-help" title={tooltipText.nsfw}>NSFW</th>
+                    <th className="cursor-help" title={tooltipText.faces}>Faces</th>
+                    <th className="cursor-help" title={tooltipText.age}>Idades</th>
+                    <th className="cursor-help" title={tooltipText.childs}>Crianças</th>
+                    <th className="cursor-help" title={tooltipText.timestamp}>Timestamp</th>
+                    <th className="cursor-help" title={tooltipText.classification}>Classe</th>
                 </tr>
             </thead>
             <tbody>

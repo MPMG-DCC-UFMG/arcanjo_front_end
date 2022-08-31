@@ -13,7 +13,7 @@ interface AnalysisTableProps {
 
 function AnalysisTable({ filter }: AnalysisTableProps) {
     const [data, setData] = useState<AnalysisData[] | null>(null);
-    const [orderedBy, setOrderedBy] = useState<string>("id ASC");
+    const [orderedBy, setOrderedBy] = useState<string>("id DESC");
     const analysisService = new AnalysisService();
     const navigate = useNavigate();
 

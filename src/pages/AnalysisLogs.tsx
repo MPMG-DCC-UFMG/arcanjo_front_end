@@ -48,9 +48,11 @@ function AnalysisLogs() {
     }
 
     const cancelProcess = async () => {
-        await analysisService.cancel(parseInt(id || '0'));
-        startRefresh();
-        loadAnalysis();
+        if (window.confirm("Você deseja encerrar o processamento da análise?")) {
+            await analysisService.cancel(parseInt(id || '0'));
+            startRefresh();
+            loadAnalysis();
+        }
     }
 
     useEffect(() => {
